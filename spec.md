@@ -14,6 +14,8 @@ Run a tower crane with the keyboard. Pick up loads from the staging area and del
 - The game ends if the crane tips over.
 - When every load is delivered, generate a new round with different load counts, randomized staging loads, randomized targets, and a randomized building/crane height.
 - Each new target layout must assign every load a capacity-feasible target.
+- Each round includes one optional 5,000 lb bonus load riding on a moving truck.
+- If the bonus truck exits the right side of the screen, it is unavailable for the rest of that round.
 
 ## Inputs
 - The horizontal arrow keys extend or retract the trolley on the load arm.
@@ -44,6 +46,10 @@ Radius (ft)	Capacity (lb)
 - A warning should appear when the load reaches 90% of capacity at the current radius.
 - A dramatic tip-over should appear when the crane exceeds its capacity.
 - Timer and score should be shown on screen.
+
+## Features 
+- After all the loads are delivered OR when all the targets are matched, a new round starts with different loads and targets. The building changes too.
+- There is a bonus load that is on a moving truck that the player can grab during each round. 
 
 ## Look and feel
 - An 8-bit style with bright, semi-realistic colors 

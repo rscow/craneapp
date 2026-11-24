@@ -66,6 +66,7 @@ let buildingHeight = 372;
 let craneArmY = 88;
 let gameStarted = false;
 let gamePaused = false;
+let bonusTruck = null;
 
 const keys = new Set();
 const minRadius = 50;
@@ -426,6 +427,18 @@ function generateRound() {
 
   attachedLoad = null;
   capacityWarning.hidden = true;
+  bonusTruck = {
+    id: "bonus",
+    weight: 5000,
+    width: 96,
+    height: 48,
+    x: -110,
+    y: 666,
+    direction: 1,
+    speed: 55 + Math.random() * 30,
+    active: true,
+    delivered: false,
+  };
   loadStatus.textContent = `ROUND ${roundNumber} - READY`;
   const roundReadout = document.getElementById("round-readout");
   if (roundReadout) roundReadout.textContent = String(roundNumber);
@@ -521,6 +534,10 @@ function handleLoadAction() {
     if (target) {
       target.delivered = true;
       attachedLoad.delivered = true;
+      if (attachedLoad.id === "bonus") {
+        bonusTruck.delivered = true;
+        bonusTruck.active = false;
+      }
       awardDelivery(attachedLoad);
       attachedLoad = null;
       if (isRoundComplete() && !roundTransition) {
@@ -540,8 +557,12 @@ function handleLoadAction() {
         roundTransitionTimeout = window.setTimeout(finishRoundTransition, 900);
       }
     } else {
-      attachedLoad.x = attachedLoad.homeX;
-      attachedLoad.y = attachedLoad.homeY;
+      if (attachedLoad.id === "bonus") {
+        bonusTruck.active = false;
+      } else {
+        attachedLoad.x = attachedLoad.homeX;
+        attachedLoad.y = attachedLoad.homeY;
+      }
       attachedLoad = null;
       consecutiveDeliveries = 0;
       loadStatus.textContent = "INCORRECT DROP";
@@ -550,10 +571,26 @@ function handleLoadAction() {
     return;
   }
 
-  const load = loads.find((candidate) =>
-    !candidate.delivered &&
-    intersectsLoad(candidate, hookX, hookY)
-  );
+  const truckLoad = bonusTruck?.active && !bonusTruck.delivered
+    ? {
+        ...bonusTruck,
+        x: bonusTruck.x,
+        y: bonusTruck.y,
+        width: 96,
+        height: 48,
+        homeX: bonusTruck.x,
+        homeY: bonusTruck.y,
+      }
+    : null;
+  const load = truckLoad && hookX >= bonusTruck.x + 16 &&
+    hookX <= bonusTruck.x + 56 &&
+    hookY >= bonusTruck.y - 16 &&
+    hookY <= bonusTruck.y
+      ? truckLoad
+      : loads.find((candidate) =>
+          !candidate.delivered &&
+          intersectsLoad(candidate, hookX, hookY)
+        );
 
   if (load) {
     attachedLoad = load;
@@ -642,6 +679,16 @@ function drawLoads() {
     };
     rect(load.x + 16, load.y - 16, 40, 16, topColors[load.id]);
   });
+
+  if (bonusTruck?.active && !bonusTruck.delivered) {
+    rect(bonusTruck.x + 8, bonusTruck.y + 8, bonusTruck.width, bonusTruck.height, "#26384a");
+    rect(bonusTruck.x, bonusTruck.y, bonusTruck.width, bonusTruck.height - 12, "#e6c84d");
+    rect(bonusTruck.x + 16, bonusTruck.y - 16, 40, 16, "#fff4c7");
+    rect(bonusTruck.x + 10, bonusTruck.y + 36, 18, 18, "#26384a");
+    rect(bonusTruck.x + bonusTruck.width - 28, bonusTruck.y + 36, 18, 18, "#26384a");
+    rect(bonusTruck.x + 14, bonusTruck.y + 40, 10, 10, "#9ecfdc");
+    rect(bonusTruck.x + bonusTruck.width - 24, bonusTruck.y + 40, 10, 10, "#9ecfdc");
+  }
 
   if (attachedLoad) {
     const { hookX, hookY } = getCraneGeometry();
@@ -739,6 +786,13 @@ function drawTipOver() {
 
 function update(deltaSeconds) {
   if (!gameStarted || gameOver || gamePaused) return;
+
+  if (bonusTruck?.active && !bonusTruck.delivered) {
+    bonusTruck.x += bonusTruck.direction * bonusTruck.speed * deltaSeconds;
+    if (bonusTruck.x > 1200) {
+      bonusTruck.active = false;
+    }
+  }
 
   remainingSeconds -= deltaSeconds;
   if (remainingSeconds <= 0) {

@@ -164,6 +164,16 @@
 - Worked: Yes.
 
 ## 2026-11-23
+- Asked: Move to Stage 7 and verify the complete app.
+- Changed: Ran JavaScript syntax, capacity interpolation, round state, staging capacity, asset serving, and whitespace checks.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Add a 5,000 lb moving-truck bonus load to each round that leaves permanently if it exits the screen.
+- Changed: Added truck generation, movement, bonus pickup/delivery, off-screen removal, and 5,000 lb capacity handling.
+- Worked: Yes.
+
+## 2026-11-23
 - Asked: Confirm whether heavier staging loads, universal target drops, whole-crane tipping, weight legend, and dispersed targets are sensible.
 - Changed: Recorded the design feedback; no code or specification changes were made yet.
 - Worked: Yes.
