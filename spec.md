@@ -1,29 +1,43 @@
 # Crane Operator
 
 ## Purpose
-Run a tower crane with the keyboard. Pick up loads from the staging area and set them on a building under construction before time runs out, without tipping the crane.
+Run a tower crane with the keyboard. Pick up loads from the staging area and deliver them to target locations on a building under construction before time runs out, earning points without tipping the crane.
+
+## Gameplay
+- The player repeatedly picks up a load, moves it to its target location, and sets it down.
+- Press the spacebar to attach a load only when the hook is directly over it.
+- Press the spacebar to detach the load at any time.
+- Delivering a load to the correct target successfully completes the delivery.
+- Dropping a load incorrectly resets the consecutive-delivery multiplier.
+- The game ends if the crane tips over.
 
 ## Inputs
-- The arrow keys on the keyboard dictate the trolley on the load arm of the crane. Side arrows can extend or retract the trolley, and the vertical arrows can move the cable/hook up and down. The 'A' key turns the crane clockwise and the 'D' key turns it counterclockwise. 
+- The horizontal arrow keys extend or retract the trolley on the load arm.
+- The vertical arrow keys move the crane cable and hook up and down.
+- The 'A' key turns the crane clockwise and the 'D' key turns it counterclockwise.
+- The spacebar attaches or detaches a load.
 
 ## Calculations
-- The arm has a minimum radius of 50 feet from the mast and a maximum of 150 feet from the mast. 
-- There will be loads of different weights that the crane has to pick up and target locations to put them. 
+- The arm has a minimum radius of 50 feet from the mast and a maximum of 150 feet from the mast.
+- Loads have different weights and each load has a target location.
 - The crane must follow this load chart, which will also be shown on screen
+
 Radius (ft)	Capacity (lb)
 50	20,000
 75	13,000
 100	9,000
 125	7,000
 150	5,500
-- Use the data in the load chart to interpolate the capacity at different radii 
-- score is determined by how quickly weights can be taken to their target
+- Use the data in the load chart to interpolate the capacity at different radii.
+- Trying to lift a load whose weight exceeds the crane's capacity at the current radius tips the crane and ends the game.
+- Score depends on delivery time and load weight.
+- Successful consecutive deliveries increase the score with a multiplier.
  
 ## Outputs
-- the crane needs to move in real time according to the player's inputs 
-- A warning when the load reaches 90% of capacity at the current radius, and a dramatic tip-over when it passes 100%
-- timer and a score 
-- 
+- The crane needs to move in real time according to the player's inputs.
+- A warning should appear when the load reaches 90% of capacity at the current radius.
+- A dramatic tip-over should appear when the crane exceeds its capacity.
+- Timer and score should be shown on screen.
 
 ## Look and feel
 - An 8-bit style with bright, semi-realistic colors 
@@ -31,10 +45,9 @@ Radius (ft)	Capacity (lb)
 
 
 ## Validation
-- Radius with maximum load and associated moment: 
-100 ft --- 9000 lbs --- 900000 ft-lbs 
-110 ft --- 8500 lbs --- 935000 ft-lbs 
-90 ft --- 10750 lbs --- 967500 ft-lbs
+- 100 ft radius: 9,000 lb capacity
+- 110 ft radius: 8,200 lb interpolated capacity
+- 90 ft radius: 10,750 lb interpolated capacity
 
 
 ## Out of scope

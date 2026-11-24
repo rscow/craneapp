@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crane Operator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="hud" aria-label="Game status">
+        <div class="hud-item">
+          <span class="hud-label">TIME</span>
+          <span id="timer" class="hud-value">02:00</span>
+        </div>
+        <h1>CRANE OPERATOR</h1>
+        <div class="hud-item hud-item-right">
+          <span class="hud-label">SCORE</span>
+          <span id="score" class="hud-value">000000</span>
+        </div>
+      </header>
+
+      <canvas
+        id="game"
+        width="960"
+        height="540"
+        aria-label="Tower crane construction scene"
+      ></canvas>
+    </main>
+
+    <script src="game.js"></script>
+  </body>
+</html>

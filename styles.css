@@ -1,0 +1,77 @@
+:root {
+  color-scheme: dark;
+  font-family: "Courier New", monospace;
+  background: #17243b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 20%, #31557d 0, #17243b 58%, #101827 100%);
+}
+
+.game-shell {
+  width: min(960px, 100vw);
+  border: 8px solid #d9a441;
+  box-shadow:
+    0 0 0 4px #6f4724,
+    12px 12px 0 rgba(10, 16, 28, 0.55);
+  background: #79bce5;
+}
+
+.hud {
+  height: 72px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  padding: 8px 16px;
+  background: #24364f;
+  border-bottom: 8px solid #d9a441;
+  color: #fff4c7;
+  image-rendering: pixelated;
+}
+
+.hud h1 {
+  margin: 0;
+  text-align: center;
+  color: #ffd56a;
+  font-size: clamp(18px, 3vw, 30px);
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #8b542b;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hud-item-right {
+  text-align: right;
+}
+
+.hud-label {
+  color: #9ecfdc;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.hud-value {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
