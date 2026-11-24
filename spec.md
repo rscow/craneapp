@@ -8,9 +8,12 @@ Run a tower crane with the keyboard. Pick up loads from the staging area and del
 - Press the spacebar to attach a load only when the hook is inside the small rectangle on top of the load.
 - Press the spacebar to detach the load at any time.
 - A load is delivered successfully when it is detached over the matching target and the bottom of the load is aligned with the top of the target, with a small margin of error.
+- Any weight can be delivered to any open target.
 - An unsuccessful drop restores the load to its original position on the staging platform.
 - Dropping a load incorrectly resets the consecutive-delivery multiplier.
 - The game ends if the crane tips over.
+- When every load is delivered, generate a new round with different load counts, randomized staging loads, randomized targets, and a randomized building/crane height.
+- Each new target layout must assign every load a capacity-feasible target.
 
 ## Inputs
 - The horizontal arrow keys extend or retract the trolley on the load arm.
@@ -47,7 +50,7 @@ Radius (ft)	Capacity (lb)
 ## Validation
 - 100 ft radius: 9,000 lb capacity
 - 110 ft radius: 8,200 lb interpolated capacity
-- 90 ft radius: 10,750 lb interpolated capacity
+- 90 ft radius: 10,600 lb interpolated capacity
 
 
 ## Out of scope

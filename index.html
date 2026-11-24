@@ -22,6 +22,7 @@
 
       <section class="game-stage" aria-label="Crane scene and load chart">
         <aside class="load-chart" aria-label="Crane load chart">
+          <h2>ROUND <span id="round-readout">1</span></h2>
           <h2>LOAD CHART</h2>
           <table>
             <thead>
@@ -38,12 +39,24 @@
               <tr><td>150 ft</td><td>5,500 lb</td></tr>
             </tbody>
           </table>
+          <h2>LOAD WEIGHTS</h2>
+          <dl class="weight-legend">
+            <div><dt><span class="weight-swatch red"></span>Red</dt><dd>8,000 lb</dd></div>
+            <div><dt><span class="weight-swatch purple"></span>Purple</dt><dd>5,000 lb</dd></div>
+            <div><dt><span class="weight-swatch yellow"></span>Yellow</dt><dd>12,000 lb</dd></div>
+            <div><dt><span class="weight-swatch blue"></span>Blue</dt><dd>14,000 lb</dd></div>
+            <div><dt><span class="weight-swatch green"></span>Green</dt><dd>18,000 lb</dd></div>
+          </dl>
           <h2>POSITION</h2>
           <dl class="position-readout">
             <div><dt>RADIUS</dt><dd id="radius-readout">100 ft</dd></div>
             <div><dt>HOOK</dt><dd id="hook-readout">50%</dd></div>
             <div><dt>SIDE</dt><dd id="side-readout">RIGHT</dd></div>
+            <div><dt>CAPACITY</dt><dd id="capacity-readout">9,000 lb</dd></div>
           </dl>
+          <div id="capacity-warning" class="capacity-warning" aria-live="polite" hidden>
+            90% CAPACITY WARNING
+          </div>
           <div id="load-status" class="load-status" aria-live="polite">READY</div>
         </aside>
 

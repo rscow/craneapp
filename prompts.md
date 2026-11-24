@@ -87,3 +87,48 @@
 - Asked: Widen successful-drop margins slightly and turn matching targets green while a load is in range.
 - Changed: Increased horizontal margin to 18 px and vertical margin to 12 px, with real-time green target feedback.
 - Worked: Yes.
+
+## 2026-11-23
+- Asked: Start Stage 4 by implementing capacity checks and tip-over/game-over.
+- Changed: Added load weights, linear capacity interpolation, 90% warnings, overload tipping, capacity readout, and dramatic game-over tip rendering.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Make weights reusable at any target, place heavier staging loads nearer the mast, add a weight legend, disperse targets, tilt the whole crane toward the load, and support restart.
+- Changed: Updated staging and target layouts, removed target/load matching restrictions, added a color-weight legend, whole-crane directional tipping, and Spacebar game reset.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Widen the building and ensure every staging load has suitable capacity-feasible targets.
+- Changed: Extended the building toward the mast and right edge, moved targets to broader dispersed positions, and kept all target centers within crane reach.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Make the warning appear at 90% of capacity for the current radius.
+- Changed: Added a flashing side-panel warning and on-canvas warning banner based on continuous interpolated capacity.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Generate randomized new rounds after all loads are delivered, including varying load counts, targets, building height, and crane height.
+- Changed: Added round generation with capacity-feasible target assignment, randomized staging/targets, round transition, and dynamic building/crane height.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Make every regenerated staging load capacity-safe and keep all targets at least 50 ft from the mast.
+- Changed: Added weight-specific staging bands, weight-sorted target assignment, 50-ft target filtering, and extra near targets for heavier loads.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Prevent targets from overlapping during randomized rounds.
+- Changed: Changed target generation to full rectangle collision checks, reserving 20 px horizontal and 16 px vertical spacing.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Fix premature or repeated round regeneration.
+- Changed: Removed round generation from every animation frame and locked regeneration until all loads are delivered.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Confirm whether heavier staging loads, universal target drops, whole-crane tipping, weight legend, and dispersed targets are sensible.
+- Changed: Recorded the design feedback; no code or specification changes were made yet.
+- Worked: Yes.
