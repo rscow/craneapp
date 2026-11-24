@@ -1,26 +1,42 @@
-# Your App's Name
+# Crane Operator
 
 ## Purpose
-One or two sentences: what the app does and who it is for.
+Run a tower crane with the keyboard. Pick up loads from the staging area and set them on a building under construction before time runs out, without tipping the crane.
 
 ## Inputs
-Every value the user can enter or change, with units, reasonable ranges,
-and the control used to enter it (number box, slider, dropdown, button).
+- The arrow keys on the keyboard dictate the trolley on the load arm of the crane. Side arrows can extend or retract the trolley, and the vertical arrows can move the cable/hook up and down. The 'A' key turns the crane clockwise and the 'D' key turns it counterclockwise. 
 
 ## Calculations
-The equations, rules, or logic the app uses, written out. Define every variable and its units.
-
+- The arm has a minimum radius of 50 feet from the mast and a maximum of 150 feet from the mast. 
+- There will be loads of different weights that the crane has to pick up and target locations to put them. 
+- The crane must follow this load chart, which will also be shown on screen
+Radius (ft)	Capacity (lb)
+50	20,000
+75	13,000
+100	9,000
+125	7,000
+150	5,500
+- Use the data in the load chart to interpolate the capacity at different radii 
+- score is determined by how quickly weights can be taken to their target
+ 
 ## Outputs
-What the app shows: numbers (with units), tables, plots, diagrams,
-colors, animations.
+- the crane needs to move in real time according to the player's inputs 
+- A warning when the load reaches 90% of capacity at the current radius, and a dramatic tip-over when it passes 100%
+- timer and a score 
+- 
 
 ## Look and feel
-How the app looks and is laid out, what it shows when it first opens,
-and how it works on a phone.
+- An 8-bit style with bright, semi-realistic colors 
+
+
 
 ## Validation
-At least one test case you have worked by hand: the exact inputs,
-and the outputs the app must produce.
+- Radius with maximum load and associated moment: 
+100 ft --- 9000 lbs --- 900000 ft-lbs 
+110 ft --- 8500 lbs --- 935000 ft-lbs 
+90 ft --- 10750 lbs --- 967500 ft-lbs
+
 
 ## Out of scope
-Things the app will NOT do, so the agent doesn't add them.
+- no free play/practice
+- crane customization 
