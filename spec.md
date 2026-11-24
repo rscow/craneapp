@@ -60,8 +60,10 @@ Radius (ft)	Capacity (lb)
 - 100 ft radius: 9,000 lb capacity 
 - 110 ft radius: 8,200 lb interpolated capacity
 - 90 ft radius: 10,600 lb interpolated capacity
-- 18,000 lb weight - max radius of 55.555 feet -- 90% warning @ 50 feet 
-- 12,000 lb weight - max radius of 83.333 feet -- 90% warning @ 75 feet
+- 18,000 lb weight - max radius of 55.555 feet -- 90% warning around 50 feet 
+- 14,000 lb weight - max radius of 71.429 feet --- 90% warning around 65 feet
+- 12,000 lb weight - max radius of 83.333 feet -- 90% warning around 75 feet 
+Validation passes.
 
 ## Out of scope
 - no free play/practice
