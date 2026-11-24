@@ -174,6 +174,11 @@
 - Worked: Yes.
 
 ## 2026-11-23
+- Asked: Put the load weights chart in the top-left of the upper scene.
+- Changed: Moved the load weight legend from the sidebar into a compact top-left scene overlay.
+- Worked: Yes.
+
+## 2026-11-23
 - Asked: Confirm whether heavier staging loads, universal target drops, whole-crane tipping, weight legend, and dispersed targets are sensible.
 - Changed: Recorded the design feedback; no code or specification changes were made yet.
 - Worked: Yes.
