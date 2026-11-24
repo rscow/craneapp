@@ -20,12 +20,33 @@
         </div>
       </header>
 
-      <canvas
-        id="game"
-        width="960"
-        height="540"
-        aria-label="Tower crane construction scene"
-      ></canvas>
+      <section class="game-stage" aria-label="Crane scene and load chart">
+        <aside class="load-chart" aria-label="Crane load chart">
+          <h2>LOAD CHART</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Radius</th>
+                <th>Capacity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>50 ft</td><td>20,000 lb</td></tr>
+              <tr><td>75 ft</td><td>13,000 lb</td></tr>
+              <tr><td>100 ft</td><td>9,000 lb</td></tr>
+              <tr><td>125 ft</td><td>7,000 lb</td></tr>
+              <tr><td>150 ft</td><td>5,500 lb</td></tr>
+            </tbody>
+          </table>
+        </aside>
+
+        <canvas
+          id="game"
+          width="960"
+          height="540"
+          aria-label="Tower crane construction scene"
+        ></canvas>
+      </section>
     </main>
 
     <script src="game.js"></script>

@@ -32,3 +32,8 @@
 - Asked: Build only Stage 1: the basic scene and HUD.
 - Changed: Created `index.html`, `styles.css`, and `game.js` with a static crane, staging loads, building targets, timer, and score display.
 - Worked: Yes.
+
+## 2026-11-23
+- Asked: Keep the spec load chart visible on screen at all times.
+- Changed: Added a persistent load-chart table beside the canvas and styled it for the 8-bit HUD.
+- Worked: Yes.

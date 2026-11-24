@@ -69,6 +69,52 @@ body {
   letter-spacing: 2px;
 }
 
+.game-stage {
+  display: grid;
+  grid-template-columns: 156px minmax(0, 1fr);
+  background: #79bce5;
+}
+
+.load-chart {
+  padding: 10px 8px;
+  background: #24364f;
+  border-right: 8px solid #d9a441;
+  color: #fff4c7;
+}
+
+.load-chart h2 {
+  margin: 4px 0 12px;
+  text-align: center;
+  color: #ffd56a;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.load-chart table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.load-chart th,
+.load-chart td {
+  padding: 7px 3px;
+  border: 2px solid #9ecfdc;
+  text-align: center;
+}
+
+.load-chart th {
+  background: #31557d;
+  color: #fff4c7;
+  font-size: 11px;
+}
+
+.load-chart td {
+  background: #17243b;
+  color: #ffffff;
+}
+
 canvas {
   width: 100%;
   height: auto;
