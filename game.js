@@ -6,6 +6,8 @@ const sideReadout = document.getElementById("side-readout");
 const loadStatus = document.getElementById("load-status");
 const capacityReadout = document.getElementById("capacity-readout");
 const capacityWarning = document.getElementById("capacity-warning");
+const timerReadout = document.getElementById("timer");
+const scoreReadout = document.getElementById("score");
 
 context.imageSmoothingEnabled = false;
 
@@ -45,6 +47,10 @@ let tipStartedAt = 0;
 let roundNumber = 1;
 let roundTransition = false;
 let roundTransitionTimeout = null;
+let score = 0;
+let consecutiveDeliveries = 0;
+let remainingSeconds = 120;
+let lastFrameTime = performance.now();
 let buildingHeight = 372;
 let craneArmY = 88;
 
@@ -127,6 +133,10 @@ function resetGame() {
   gameOver = false;
   tipStartedAt = 0;
   roundTransition = false;
+  score = 0;
+  consecutiveDeliveries = 0;
+  remainingSeconds = 120;
+  lastFrameTime = performance.now();
   if (roundTransitionTimeout !== null) {
     window.clearTimeout(roundTransitionTimeout);
     roundTransitionTimeout = null;
@@ -146,6 +156,39 @@ function triggerTipOver() {
   keys.clear();
   tipStartedAt = performance.now();
   loadStatus.textContent = "OVERLOAD - GAME OVER";
+}
+
+function triggerTimeOver() {
+  if (gameOver) return;
+  gameOver = true;
+  remainingSeconds = 0;
+  keys.clear();
+  capacityWarning.hidden = true;
+  loadStatus.textContent = "TIME UP - GAME OVER";
+  updateScoreDisplay();
+}
+
+function formatTimer(seconds) {
+  const boundedSeconds = Math.max(0, Math.ceil(seconds));
+  const minutes = Math.floor(boundedSeconds / 60);
+  const remainder = boundedSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+}
+
+function updateScoreDisplay() {
+  scoreReadout.textContent = String(score).padStart(6, "0");
+  timerReadout.textContent = formatTimer(remainingSeconds);
+}
+
+function awardDelivery(load) {
+  consecutiveDeliveries += 1;
+  const weightPoints = Math.round(load.weight / 100);
+  const timeBonus = Math.round(remainingSeconds * 10);
+  const multiplier = 1 + (consecutiveDeliveries - 1) * 0.25;
+  const points = Math.round((weightPoints + timeBonus) * multiplier);
+  score += points;
+  loadStatus.textContent = `DELIVERY SUCCESS +${points}`;
+  updateScoreDisplay();
 }
 
 function rect(x, y, width, height, color) {
@@ -381,8 +424,8 @@ function handleLoadAction() {
     if (target) {
       target.delivered = true;
       attachedLoad.delivered = true;
+      awardDelivery(attachedLoad);
       attachedLoad = null;
-      loadStatus.textContent = "DELIVERY SUCCESS";
       if (loads.every((load) => load.delivered) && !roundTransition) {
         roundTransition = true;
         loadStatus.textContent = "ROUND COMPLETE";
@@ -397,6 +440,7 @@ function handleLoadAction() {
       attachedLoad.x = attachedLoad.homeX;
       attachedLoad.y = attachedLoad.homeY;
       attachedLoad = null;
+      consecutiveDeliveries = 0;
       loadStatus.textContent = "INCORRECT DROP";
     }
     return;
@@ -575,7 +619,7 @@ function drawTipOver() {
   context.fillStyle = "#fff4c7";
   context.font = "bold 64px 'Courier New', monospace";
   context.textAlign = "center";
-  context.fillText("CRANE TIP", 600, 320);
+  context.fillText(remainingSeconds === 0 ? "TIME UP" : "CRANE TIP", 600, 320);
   context.font = "bold 32px 'Courier New', monospace";
   context.fillText("GAME OVER", 600, 370);
   context.textAlign = "left";
@@ -583,6 +627,13 @@ function drawTipOver() {
 
 function update(deltaSeconds) {
   if (gameOver) return;
+
+  remainingSeconds -= deltaSeconds;
+  if (remainingSeconds <= 0) {
+    triggerTimeOver();
+    return;
+  }
+  updateScoreDisplay();
 
   const previousRadiusOffset = crane.radiusOffset;
 

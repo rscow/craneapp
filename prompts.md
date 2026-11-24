@@ -114,6 +114,11 @@
 - Worked: Yes.
 
 ## 2026-11-23
+- Asked: Move on to Stage 5 and implement scoring and timer behavior.
+- Changed: Added a 2-minute countdown, weight and remaining-time delivery points, consecutive-delivery multiplier, incorrect-drop reset, and live HUD updates.
+- Worked: Yes.
+
+## 2026-11-23
 - Asked: Make every regenerated staging load capacity-safe and keep all targets at least 50 ft from the mast.
 - Changed: Added weight-specific staging bands, weight-sorted target assignment, 50-ft target filtering, and extra near targets for heavier loads.
 - Worked: Yes.

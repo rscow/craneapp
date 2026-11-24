@@ -35,6 +35,9 @@ Radius (ft)	Capacity (lb)
 - Trying to lift a load whose weight exceeds the crane's capacity at the current radius tips the crane and ends the game.
 - Score depends on delivery time and load weight.
 - Successful consecutive deliveries increase the score with a multiplier.
+- The timer starts at 2:00 and ends the game at 0:00.
+- A successful delivery earns weight points plus a remaining-time bonus.
+- The consecutive-delivery multiplier is 1.25x for the second delivery, 1.50x for the third, and continues in 0.25 increments.
  
 ## Outputs
 - The crane needs to move in real time according to the player's inputs.
