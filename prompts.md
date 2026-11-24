@@ -37,3 +37,33 @@
 - Asked: Keep the spec load chart visible on screen at all times.
 - Changed: Added a persistent load-chart table beside the canvas and styled it for the 8-bit HUD.
 - Worked: Yes.
+
+## 2026-11-23
+- Asked: Start building Stage 2: crane keyboard movement only.
+- Changed: Implemented real-time arrow-key trolley and hook movement, A/D crane rotation, radius and height limits, and position readouts.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Keep the load arm parallel to the ground, represent A/D rotation around the y-axis, and invert vertical arrow hook movement.
+- Changed: Removed arm tilt from Stage 2 and added a yaw indicator; ArrowUp now lowers the hook and ArrowDown raises it.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Rotate the whole load arm, trolley, and hook around the crane's vertical axis, including toward loads left of the mast.
+- Changed: Updated Stage 2 drawing and rotation projection so the full arm assembly follows crane yaw and remains able to swing to both sides.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Remove load-arm rotation and let horizontal arrow keys move the trolley/hook within 150 ft on either side of the mast, with the cable reaching ground.
+- Changed: Simplified Stage 2 to signed left/right radius movement, removed A/D rotation controls, and lengthened the cable to reach y=450 ground level.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Increase the scene scale and confirm every load and target stays within the crane radius.
+- Changed: Enlarged the building, staging loads, targets, and crane elements, widened the scene, and retained all objects within ±150 ft of the crane mast.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Thin the mast and make trolley/hook movement feel larger and more distant.
+- Changed: Widened the canvas to 1200 px, moved the mast to the scene center, increased radius-to-pixel scale, and narrowed the mast assembly.
+- Worked: Yes.

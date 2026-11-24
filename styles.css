@@ -18,7 +18,7 @@ body {
 }
 
 .game-shell {
-  width: min(960px, 100vw);
+  width: min(1200px, 100vw);
   border: 8px solid #d9a441;
   box-shadow:
     0 0 0 4px #6f4724,
@@ -112,6 +112,35 @@ body {
 
 .load-chart td {
   background: #17243b;
+  color: #ffffff;
+}
+
+.position-readout {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.position-readout div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 5px 3px;
+  border: 2px solid #9ecfdc;
+  background: #17243b;
+}
+
+.position-readout dt,
+.position-readout dd {
+  margin: 0;
+}
+
+.position-readout dt {
+  color: #9ecfdc;
+}
+
+.position-readout dd {
+  text-align: right;
   color: #ffffff;
 }
 
