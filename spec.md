@@ -5,16 +5,16 @@ Run a tower crane with the keyboard. Pick up loads from the staging area and del
 
 ## Gameplay
 - The player repeatedly picks up a load, moves it to its target location, and sets it down.
-- Press the spacebar to attach a load only when the hook is directly over it.
+- Press the spacebar to attach a load only when the hook is inside the small rectangle on top of the load.
 - Press the spacebar to detach the load at any time.
-- Delivering a load to the correct target successfully completes the delivery.
+- A load is delivered successfully when it is detached over the matching target and the bottom of the load is aligned with the top of the target, with a small margin of error.
+- An unsuccessful drop restores the load to its original position on the staging platform.
 - Dropping a load incorrectly resets the consecutive-delivery multiplier.
 - The game ends if the crane tips over.
 
 ## Inputs
 - The horizontal arrow keys extend or retract the trolley on the load arm.
 - The vertical arrow keys move the crane cable and hook up and down.
-- The 'A' key turns the crane clockwise and the 'D' key turns it counterclockwise.
 - The spacebar attaches or detaches a load.
 
 ## Calculations

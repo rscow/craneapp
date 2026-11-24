@@ -67,3 +67,23 @@
 - Asked: Thin the mast and make trolley/hook movement feel larger and more distant.
 - Changed: Widened the canvas to 1200 px, moved the mast to the scene center, increased radius-to-pixel scale, and narrowed the mast assembly.
 - Worked: Yes.
+
+## 2026-11-23
+- Asked: Start Stage 3 with load attachment and basic drop detection.
+- Changed: Added spacebar attachment/detachment, load and target objects, successful delivery tracking, incorrect-drop feedback, and removed obsolete A/D controls from the spec.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Require the hook to enter the top pickup rectangle, restore loads after bad drops, and align load bottoms with target tops.
+- Changed: Updated pickup/drop collision rules and added original staging positions for incorrect-drop restoration.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Increase scene scale, add staggered loads and building capacity, and move ground to the canvas bottom.
+- Changed: Expanded the canvas to 720 px, taller crane/building, five staggered/stacked loads, more targets, and cable length reaching y=630 ground level.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Widen successful-drop margins slightly and turn matching targets green while a load is in range.
+- Changed: Increased horizontal margin to 18 px and vertical margin to 12 px, with real-time green target feedback.
+- Worked: Yes.
