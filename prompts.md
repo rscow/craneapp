@@ -119,6 +119,26 @@
 - Worked: Yes.
 
 ## 2026-11-23
+- Asked: Move on to Stage 6 and polish the 8-bit presentation.
+- Changed: Added streak HUD, controls legend, pixel clouds, target brackets, load shadows/highlights, and stronger retro visual hierarchy.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Add a start-game button and Play Again button after tip or time game over.
+- Changed: Added pre-game and game-over overlays, timer gating, reset state, and Play Again handling.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Move ground to the bottom of the game screen.
+- Changed: Extended ground, staging, building, crane mast, labels, and cable geometry to the 720 px canvas bottom.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Add a pause button.
+- Changed: Added Pause/Resume controls, P/Escape toggling, and a paused-game overlay that freezes gameplay and timer.
+- Worked: Yes.
+
+## 2026-11-23
 - Asked: Make every regenerated staging load capacity-safe and keep all targets at least 50 ft from the mast.
 - Changed: Added weight-specific staging bands, weight-sorted target assignment, 50-ft target filtering, and extra near targets for heavier loads.
 - Worked: Yes.
@@ -131,6 +151,16 @@
 ## 2026-11-23
 - Asked: Fix premature or repeated round regeneration.
 - Changed: Removed round generation from every animation frame and locked regeneration until all loads are delivered.
+- Worked: Yes.
+
+## 2026-11-23
+- Asked: Verify a round starts only after every target space is filled.
+- Changed: Added an explicit round-completion helper requiring the target count to match the load count and both arrays to be fully delivered.
+- Worked: No — the intended rule was clarified as round advancement after either all loads or all targets are used.
+
+## 2026-11-23
+- Asked: Advance a round when all loads are used or all targets are filled, whichever happens first.
+- Changed: Updated round completion to use OR across fully delivered loads and fully filled targets.
 - Worked: Yes.
 
 ## 2026-11-23

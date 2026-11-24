@@ -18,6 +18,7 @@
           <span class="hud-label">SCORE</span>
           <span id="score" class="hud-value">000000</span>
         </div>
+        <button id="pause-button" class="pause-button" type="button" disabled>PAUSE</button>
       </header>
 
       <section class="game-stage" aria-label="Crane scene and load chart">
@@ -53,11 +54,16 @@
             <div><dt>HOOK</dt><dd id="hook-readout">50%</dd></div>
             <div><dt>SIDE</dt><dd id="side-readout">RIGHT</dd></div>
             <div><dt>CAPACITY</dt><dd id="capacity-readout">9,000 lb</dd></div>
+            <div><dt>STREAK</dt><dd id="streak-readout">0x</dd></div>
           </dl>
           <div id="capacity-warning" class="capacity-warning" aria-live="polite" hidden>
             90% CAPACITY WARNING
           </div>
           <div id="load-status" class="load-status" aria-live="polite">READY</div>
+          <div class="controls" aria-label="Keyboard controls">
+            <span>ARROWS MOVE</span>
+            <span>SPACE ATTACH/DROP</span>
+          </div>
         </aside>
 
         <canvas
@@ -66,6 +72,22 @@
           height="720"
           aria-label="Tower crane construction scene"
         ></canvas>
+        <div id="start-overlay" class="game-overlay" role="dialog" aria-modal="true" aria-label="Start game">
+          <h2>CRANE OPERATOR</h2>
+          <p>Deliver the loads before time expires.</p>
+          <button id="start-button" type="button">START GAME</button>
+        </div>
+        <div id="gameover-overlay" class="game-overlay" role="dialog" aria-modal="true" aria-label="Game over" hidden>
+          <h2 id="gameover-title">GAME OVER</h2>
+          <p id="gameover-message">Your crane tipped over.</p>
+          <p id="final-score">FINAL SCORE: 000000</p>
+          <button id="play-again-button" type="button">PLAY AGAIN</button>
+        </div>
+        <div id="pause-overlay" class="game-overlay pause-overlay" role="dialog" aria-modal="true" aria-label="Paused" hidden>
+          <h2>PAUSED</h2>
+          <p>Press P or Resume to continue.</p>
+          <button id="resume-button" type="button">RESUME</button>
+        </div>
       </section>
     </main>
 

@@ -8,6 +8,17 @@ const capacityReadout = document.getElementById("capacity-readout");
 const capacityWarning = document.getElementById("capacity-warning");
 const timerReadout = document.getElementById("timer");
 const scoreReadout = document.getElementById("score");
+const streakReadout = document.getElementById("streak-readout");
+const startOverlay = document.getElementById("start-overlay");
+const gameoverOverlay = document.getElementById("gameover-overlay");
+const startButton = document.getElementById("start-button");
+const playAgainButton = document.getElementById("play-again-button");
+const gameoverTitle = document.getElementById("gameover-title");
+const gameoverMessage = document.getElementById("gameover-message");
+const finalScore = document.getElementById("final-score");
+const pauseButton = document.getElementById("pause-button");
+const pauseOverlay = document.getElementById("pause-overlay");
+const resumeButton = document.getElementById("resume-button");
 
 context.imageSmoothingEnabled = false;
 
@@ -53,6 +64,8 @@ let remainingSeconds = 120;
 let lastFrameTime = performance.now();
 let buildingHeight = 372;
 let craneArmY = 88;
+let gameStarted = false;
+let gamePaused = false;
 
 const keys = new Set();
 const minRadius = 50;
@@ -62,6 +75,13 @@ const maxHookHeight = 100;
 let previousTime = performance.now();
 
 window.addEventListener("keydown", (event) => {
+  if (!gameStarted) return;
+  if ((event.key === "Escape" || event.key.toLowerCase() === "p") && !event.repeat) {
+    event.preventDefault();
+    togglePause();
+    return;
+  }
+  if (gamePaused) return;
   if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) {
     event.preventDefault();
   }
@@ -131,12 +151,15 @@ function resetGame() {
   crane.hookHeight = 50;
   attachedLoad = null;
   gameOver = false;
+  gameStarted = true;
+  gamePaused = false;
   tipStartedAt = 0;
   roundTransition = false;
   score = 0;
   consecutiveDeliveries = 0;
   remainingSeconds = 120;
   lastFrameTime = performance.now();
+  previousTime = performance.now();
   if (roundTransitionTimeout !== null) {
     window.clearTimeout(roundTransitionTimeout);
     roundTransitionTimeout = null;
@@ -145,6 +168,11 @@ function resetGame() {
   buildingHeight = 372;
   craneArmY = 88;
   capacityWarning.hidden = true;
+  startOverlay.hidden = true;
+  gameoverOverlay.hidden = true;
+  pauseOverlay.hidden = true;
+  pauseButton.disabled = false;
+  pauseButton.textContent = "PAUSE";
 
   generateRound();
   loadStatus.textContent = "READY";
@@ -153,19 +181,43 @@ function resetGame() {
 function triggerTipOver() {
   if (gameOver) return;
   gameOver = true;
+  gamePaused = false;
+  pauseOverlay.hidden = true;
+  pauseButton.disabled = true;
   keys.clear();
   tipStartedAt = performance.now();
   loadStatus.textContent = "OVERLOAD - GAME OVER";
+  showGameOver("CRANE TIP", "The crane tipped under an overload.");
 }
 
 function triggerTimeOver() {
   if (gameOver) return;
   gameOver = true;
+  gamePaused = false;
+  pauseOverlay.hidden = true;
+  pauseButton.disabled = true;
   remainingSeconds = 0;
   keys.clear();
   capacityWarning.hidden = true;
   loadStatus.textContent = "TIME UP - GAME OVER";
   updateScoreDisplay();
+  showGameOver("TIME UP", "The two-minute timer expired.");
+}
+
+function togglePause() {
+  if (!gameStarted || gameOver) return;
+
+  gamePaused = !gamePaused;
+  pauseOverlay.hidden = !gamePaused;
+  pauseButton.textContent = gamePaused ? "RESUME" : "PAUSE";
+
+  if (gamePaused) {
+    keys.clear();
+    resumeButton.focus();
+  } else {
+    previousTime = performance.now();
+    canvas.focus();
+  }
 }
 
 function formatTimer(seconds) {
@@ -175,9 +227,45 @@ function formatTimer(seconds) {
   return `${String(minutes).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
 }
 
+function showGameOver(title, message) {
+  gameoverTitle.textContent = title;
+  gameoverMessage.textContent = message;
+  finalScore.textContent = `FINAL SCORE: ${String(score).padStart(6, "0")}`;
+  gameoverOverlay.hidden = false;
+  playAgainButton.focus();
+}
+
+function startGame() {
+  gameStarted = true;
+  gameOver = false;
+  gamePaused = false;
+  remainingSeconds = 120;
+  startOverlay.hidden = true;
+  gameoverOverlay.hidden = true;
+  pauseOverlay.hidden = true;
+  pauseButton.disabled = false;
+  pauseButton.textContent = "PAUSE";
+  previousTime = performance.now();
+  updateScoreDisplay();
+  canvas.focus();
+}
+
+startButton.addEventListener("click", startGame);
+playAgainButton.addEventListener("click", resetGame);
+pauseButton.addEventListener("click", togglePause);
+resumeButton.addEventListener("click", togglePause);
+
 function updateScoreDisplay() {
   scoreReadout.textContent = String(score).padStart(6, "0");
   timerReadout.textContent = formatTimer(remainingSeconds);
+  const streakMultiplier =
+    consecutiveDeliveries === 0
+      ? 0
+      : 1 + (consecutiveDeliveries - 1) * 0.25;
+  streakReadout.textContent =
+    consecutiveDeliveries === 0
+      ? "0x"
+      : `${streakMultiplier.toFixed(2).replace(/\.00$/, "").replace(/(\.\d)0$/, "$1")}x`;
 }
 
 function awardDelivery(load) {
@@ -275,7 +363,7 @@ function generateRound() {
   craneArmY = heightChoice.crane;
   crane.hookHeight = 50;
 
-  const buildingTop = 630 - buildingHeight;
+  const buildingTop = 720 - buildingHeight;
   const targetCenters = [760, 780, 820, 840, 900, 960, 1020, 1080];
   const validTargetCenters = targetCenters.filter((center) =>
     Math.abs(center - 600) / 3.2 >= 50 &&
@@ -343,6 +431,15 @@ function generateRound() {
   if (roundReadout) roundReadout.textContent = String(roundNumber);
 }
 
+function isRoundComplete() {
+  return (
+    loads.length > 0 &&
+    targets.length > 0 &&
+    (loads.every((load) => load.delivered) ||
+      targets.every((target) => target.delivered))
+  );
+}
+
 function getCraneGeometry() {
   const mastX = 600;
   const armY = craneArmY;
@@ -353,7 +450,7 @@ function getCraneGeometry() {
     maxRadius,
   );
   const trolleyX = mastX + radiusDistance * 3.2;
-  const cableLength = 630 - craneArmY - (630 - craneArmY) * (crane.hookHeight / 100);
+  const cableLength = 720 - craneArmY - (720 - craneArmY) * (crane.hookHeight / 100);
 
   return {
     mastX,
@@ -426,15 +523,21 @@ function handleLoadAction() {
       attachedLoad.delivered = true;
       awardDelivery(attachedLoad);
       attachedLoad = null;
-      if (loads.every((load) => load.delivered) && !roundTransition) {
+      if (isRoundComplete() && !roundTransition) {
         roundTransition = true;
         loadStatus.textContent = "ROUND COMPLETE";
-        roundTransitionTimeout = window.setTimeout(() => {
+        const finishRoundTransition = () => {
+          if (gamePaused) {
+            roundTransitionTimeout = window.setTimeout(finishRoundTransition, 900);
+            return;
+          }
           roundNumber += 1;
           roundTransition = false;
           roundTransitionTimeout = null;
           generateRound();
-        }, 900);
+          updateScoreDisplay();
+        };
+        roundTransitionTimeout = window.setTimeout(finishRoundTransition, 900);
       }
     } else {
       attachedLoad.x = attachedLoad.homeX;
@@ -442,6 +545,7 @@ function handleLoadAction() {
       attachedLoad = null;
       consecutiveDeliveries = 0;
       loadStatus.textContent = "INCORRECT DROP";
+      updateScoreDisplay();
     }
     return;
   }
@@ -472,22 +576,27 @@ function drawBackground() {
 
   context.fillStyle = "#f7dfa0";
   context.fillRect(1040, 58, 72, 72);
+  rect(1028, 82, 96, 12, "#8fc8dd");
+  rect(1052, 46, 48, 12, "#8fc8dd");
+  rect(120, 94, 110, 12, "#d7edf4");
+  rect(132, 82, 86, 12, "#d7edf4");
 
   context.fillStyle = "#d5a55d";
-  rect(0, 630, 1200, 90, "#d5a55d");
+  rect(0, 630, 1200, 720 - 630, "#d5a55d");
   context.fillStyle = "#9e7d4f";
   rect(0, 630, 1200, 8, "#9e7d4f");
 
   for (let x = 0; x < 1200; x += 48) {
-    rect(x, 638, 24, 82, x % 96 === 0 ? "#b58a55" : "#c29b61");
+    rect(x, 638, 24, 720 - 638, x % 96 === 0 ? "#b58a55" : "#c29b61");
   }
 }
 
 function drawBuilding() {
-  const buildingTop = 630 - buildingHeight;
+  const groundY = 720;
+  const buildingTop = groundY - buildingHeight;
   rect(680, buildingTop, 460, buildingHeight, "#b2b0a1");
 
-  for (let floor = buildingTop; floor < 630; floor += 72) {
+  for (let floor = buildingTop; floor < groundY; floor += 72) {
     rect(680, floor, 460, 10, "#7d7e77");
 
     for (let column = 698; column < 1124; column += 92) {
@@ -501,8 +610,7 @@ function drawBuilding() {
 }
 
 function drawStagingArea() {
-  rect(150, 618, 432, 12, "#5f4b38");
-  rect(150, 630, 432, 8, "#3c342d");
+  rect(150, 708, 432, 12, "#5f4b38");
 }
 
 function drawTargets() {
@@ -513,13 +621,17 @@ function drawTargets() {
 
     rect(target.x, target.y, target.width, target.height, targetColor);
     rect(target.x + 12, target.y + 10, target.width - 24, 10, insetColor);
+    rect(target.x - 6, target.y - 6, 12, 6, "#26384a");
+    rect(target.x + target.width - 6, target.y - 6, 12, 6, "#26384a");
   });
 }
 
 function drawLoads() {
   loads.forEach((load) => {
     if (load.delivered || load === attachedLoad) return;
+    rect(load.x + 6, load.y + 6, load.width, load.height, "#26384a");
     rect(load.x, load.y, load.width, load.height, load.color);
+    rect(load.x + 8, load.y + 8, load.width - 16, 8, "#ffffff");
 
     const topColors = {
       red: "#9e3e32",
@@ -555,11 +667,11 @@ function drawCrane() {
   const tiltDirection = crane.radiusOffset < 0 ? -1 : 1;
   const tilt = gameOver ? Math.min(22, (performance.now() - tipStartedAt) / 18) : 0;
   context.save();
-  context.translate(600, 630);
+  context.translate(600, 720);
   context.rotate((tilt * tiltDirection * Math.PI) / 180);
-  context.translate(-600, -630);
+  context.translate(-600, -720);
 
-  rect(588, craneArmY - 12, 24, 630 - craneArmY + 12, "#e6e0b8");
+  rect(588, craneArmY - 12, 24, 720 - craneArmY + 12, "#e6e0b8");
   rect(570, armY, 60, 14, "#81755a");
   rect(594, 146, 12, 14, "#b14d3f");
 
@@ -571,16 +683,16 @@ function drawCrane() {
   rect(hookX - 4, trolleyY + 22, 8, Math.max(0, hookY - (trolleyY + 22)), "#27384a");
   rect(hookX - 12, hookY - 12, 24, 12, "#ffd56a");
 
-  rect(0, 630, 600, 90, "#4d5e62");
-  rect(0, 630, 430, 8, "#263840");
+  rect(0, 720 - 90, 600, 90, "#4d5e62");
+  rect(0, 720 - 90, 430, 8, "#263840");
   context.restore();
 }
 
 function drawLabels() {
   context.fillStyle = "#26384a";
   context.font = "bold 16px 'Courier New', monospace";
-  context.fillText("STAGING", 340, 604);
-  context.fillText("BUILDING", 878, 650);
+  context.fillText("STAGING", 340, 694);
+  context.fillText("BUILDING", 878, 710);
 }
 
 function drawScene() {
@@ -626,7 +738,7 @@ function drawTipOver() {
 }
 
 function update(deltaSeconds) {
-  if (gameOver) return;
+  if (!gameStarted || gameOver || gamePaused) return;
 
   remainingSeconds -= deltaSeconds;
   if (remainingSeconds <= 0) {
